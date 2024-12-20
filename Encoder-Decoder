@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Harf kaydırma fonksiyonu
+char harf_kaydir(char ch, int kaydirma) {
+    if (isalpha(ch)) {
+        char base = islower(ch) ? 'a' : 'A';
+        return (ch - base + kaydirma + 26) % 26 + base;
+    }
+    return ch;
+}
+
+// Encoder fonksiyonu
+string sifrele(const string &metin) {
+    string sifreli_metin;
+    for (char ch : metin) {
+        sifreli_metin += harf_kaydir(ch, 18);
+    }
+    return sifreli_metin;
+}
+
+// Decoder fonksiyonu
+string sifre_coz(const string &sifreli_metin) {
+    string orijinal_metin;
+    for (char ch : sifreli_metin) {
+        orijinal_metin += harf_kaydir(ch, -18);
+    }
+    return orijinal_metin;
+}
+
+int main() {
+    string secim;
+    cout << "Encoder (E) veya Decoder (D) calistirmak istiyor musunuz? ";
+    cin >> secim;
+    cin.ignore();
+
+    if (secim == "E" || secim == "e") {
+        string metin;
+        cout << "Sifrelemek istediginiz metni girin: ";
+        getline(cin, metin);
+        cout << "Sifreli Metin: " << sifrele(metin) << endl;
+
+    } else if (secim == "D" || secim == "d") {
+        string sifreli_metin;
+        cout << "Cozmek istediginiz sifreli metni girin: ";
+        getline(cin, sifreli_metin);
+        cout << "Cozulmus Metin: " << sifre_coz(sifreli_metin) << endl;
+
+    } else {
+        cout << "Gecersiz secim! Lutfen 'E' veya 'D' girin." << endl;
+    }
+
+    return 0;
+}
